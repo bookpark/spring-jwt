@@ -14,8 +14,6 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@AllArgsConstructor
-@NoArgsConstructor
 public class User implements UserDetails {
 
     @Id
