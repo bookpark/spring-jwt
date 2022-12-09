@@ -63,7 +63,7 @@ public class JwtTokenProvider {
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
-    // Request의 Headers에서 AccessToken 값을 가져옴
+    // request header에서 AccessToken 값을 가져옴
     public String resolveToken(HttpServletRequest request) {
         return request.getHeader("Authorization");
     }
