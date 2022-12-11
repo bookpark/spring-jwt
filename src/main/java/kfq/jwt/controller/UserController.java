@@ -31,7 +31,10 @@ public class UserController {
         User user = (User) customUserDetailsService.loadUserByUsername(id);
         String accessToken = jwtTokenProvider.createToken(user.getUsername());
         String refreshToken = jwtTokenProvider.refreshToken(user.getUsername());
-        res.put("userId", user.getUsername());
+        res.put("userId", user.getId());
+        res.put("userEmail", user.getEmail());
+        res.put("userName", user.getName());
+        res.put("userNickname", user.getNickname());
         res.put("accessToken", accessToken);
         res.put("refreshToken", refreshToken);
         return new ResponseEntity<Map<String, String>>(res, HttpStatus.OK);
