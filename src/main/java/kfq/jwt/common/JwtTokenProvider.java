@@ -27,7 +27,7 @@ public class JwtTokenProvider {
 
     public String createToken(String userId) {
         // JWT payload에 저장되는 정보단위, 보통 user를 식별하는 값을 넣음
-        Claims claims = Jwts.claims();
+        Claims claims = Jwts.claims().setSubject(userId);
         // claims.put("", ""); 다른 정보도 넣을 수 있음
         Date now = new Date();
         return Jwts.builder()
@@ -40,7 +40,7 @@ public class JwtTokenProvider {
     }
 
     public String refreshToken(String userId) {
-        Claims claims = Jwts.claims();
+        Claims claims = Jwts.claims().setSubject(userId);
         Date now = new Date();
         return Jwts.builder()
                 .setClaims(claims)
@@ -53,7 +53,7 @@ public class JwtTokenProvider {
 
     // 토큰에서 회원정보 추출
     public String getUserId(String token) {
-        return Jwts.parserBuilder().build().setSigningKey(secretKey)
+        return Jwts.parser().setSigningKey(secretKey)
                 .parseClaimsJws(token).getBody().getSubject();
     }
 
@@ -71,11 +71,13 @@ public class JwtTokenProvider {
     // 토큰의 유효성+만료시간 확인
     public boolean validateToken(String jwtToken) {
         try {
-            Jws<Claims> claims = Jwts.parserBuilder().build()
+            Jws<Claims> claims = Jwts.parser()
                     .setSigningKey(secretKey)
                     .parseClaimsJws(jwtToken);
+            System.out.println("validateToken");
             return !claims.getBody().getExpiration().before(new Date());
         } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }

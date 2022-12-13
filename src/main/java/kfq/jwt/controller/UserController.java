@@ -29,6 +29,7 @@ public class UserController {
                                                      HttpServletRequest request) {
         Map<String, String> res = new HashMap<>();
         User user = (User) customUserDetailsService.loadUserByUsername(id);
+        System.out.println("controller: "+ user.getUsername());
         String accessToken = jwtTokenProvider.createToken(user.getUsername());
         String refreshToken = jwtTokenProvider.refreshToken(user.getUsername());
         res.put("userId", user.getId());
